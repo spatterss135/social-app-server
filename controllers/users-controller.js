@@ -1,3 +1,4 @@
+
 const router = require('express').Router()
 const db = require('../models')
 const { Op } = require('sequelize')
@@ -64,6 +65,21 @@ router.get('/:name', async (req, res)=>{
 
 //get a user's posts
 
+
+//sams work
+
+router.get('/', async (req, res)=> {
+    let usersInDatabase = await users.findAll()
+    res.send(usersInDatabase)
+})
+
+router.get('/:id', async (req, res)=> {
+    let userAndFriends = await users.findOne({
+        where: {user_id: req.params.id},
+        include: {model: friends, as: "friends"}}
+        )
+        res.send(userAndFriends)
+    })
 
 
 module.exports = router;
