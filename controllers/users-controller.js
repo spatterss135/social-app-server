@@ -1,14 +1,21 @@
-const users = require('express').Router()
+const usersRouter = require('express').Router()
 const db = require('../models')
-const {User} = db;
+const {users, friends} = db;
 
-//get all users
-users.get('/', (req, res)=> {
-    res.send('User Page')
+
+usersRouter.get('/', async (req, res)=> {
+    let usersInDatabase = await users.findAll()
+    res.send(usersInDatabase)
 })
 
-//get a specific user
+usersRouter.get('/:id', async (req, res)=> {
+    let userAndFriends = await users.findOne({
+        where: {user_id: req.params.id},
+        include: {model: friends, as: "friends"}}
+        )
+        res.send(userAndFriends)
+    })
+    
 
-//get 
+module.exports = usersRouter;
 
-module.exports = users;

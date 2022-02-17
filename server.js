@@ -12,12 +12,14 @@ app.use(cors())
 
 // ROOT
 app.get('/', (req, res) => {
-    res.send('Welcome to Hell')
+    res.send('Welcome to Hello Kitties')
 })
 
 // CONTROLLERS 
 const usersController = require('./controllers/users-controller')
 app.use('/users', usersController)
+const postsController = require('./controllers/posts-controller')
+app.use('/posts', postsController)
 
 
 // LISTEN
