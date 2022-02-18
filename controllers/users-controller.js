@@ -16,7 +16,8 @@ router.get('/', async (req, res)=> {
 })
 
 //add a user
-router.post('/', (req, res)=>{
+router.post('/', async (req, res)=>{
+    await users.create(req.body)
     res.send('Add a new user')
 })
 
