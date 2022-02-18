@@ -26,5 +26,5 @@ app.use('/friends', friendsController)
 
 // LISTEN
 app.listen(process.env.PORT, () => {
-    console.log(`🎸 Rockin' on port: 3000`)
+    console.log(`🎸 Rockin' on port: ${process.env.PORT}!`)
 })
