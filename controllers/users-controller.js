@@ -66,18 +66,18 @@ router.get('/:name', async (req, res)=>{
 
 
 //sams work
-router.get('/', async (req, res)=> {
-    let usersInDatabase = await users.findAll()
-    res.send(usersInDatabase)
-})
+// router.get('/', async (req, res)=> {
+//     let usersInDatabase = await users.findAll()
+//     res.send(usersInDatabase)
+// })
 
-router.get('/:id', async (req, res)=> {
-    let userAndFriends = await users.findOne({
-        where: {user_id: req.params.id},
-        include: {model: friends, as: "friends"}}
-        )
-        res.send(userAndFriends)
-    })
+// router.get('/:id', async (req, res)=> {
+//     let userAndFriends = await users.findOne({
+//         where: {user_id: req.params.id},
+//         include: {model: friends, as: "friends"}}
+//         )
+//         res.send(userAndFriends)
+//     })
 
 
 module.exports = router;
