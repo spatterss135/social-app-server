@@ -6,7 +6,12 @@ const { users, posts, friends } = db;
 //get all users
 router.get('/', async (req, res)=> {
     try{
-        const foundUsers = await users.findAll()
+        const foundUsers = await users.findAll({
+            include:{
+                model: friends,
+                as: "friends"
+            }
+        })
         res.status(200).json(foundUsers)
     }
     catch(err){
@@ -23,10 +28,10 @@ router.get("/:id", async (req, res) => {
             where: { 
                 user_id: `${req.params.id}` 
             },
-            // include: [{
-            //     model: {},
-            //      as: "users"
-            // }]
+            include: {
+                model: users,
+                as: "users friends"
+            }
         })
         res.status(200).json(userFriends)
     } catch(err) {

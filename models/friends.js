@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate({ users }) {
       friends.belongsTo(users, {
-        foreignKey: 'user_id',
+        foreignKey: 'friend_id',
         as: 'users friends'
       })
     }
