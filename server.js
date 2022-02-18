@@ -20,6 +20,8 @@ const usersController = require('./controllers/users-controller')
 app.use('/users', usersController)
 const postsController = require('./controllers/posts-controller')
 app.use('/posts', postsController)
+const friendsController = require('./controllers/friends-controller')
+app.use('/friends', friendsController)
 
 
 // LISTEN
