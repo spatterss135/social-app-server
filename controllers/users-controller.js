@@ -15,6 +15,26 @@ router.get('/', async (req, res)=> {
     }
 })
 
+//get users friends
+router.get("/:id", async (req, res) => {
+    try{
+        const userFriends = await friends.findAll({
+            order: [ [ "friend_id", "ASC" ] ],
+            where: { 
+                user_id: `${req.params.id}` 
+            },
+            // include: [{
+            //     model: {},
+            //      as: "users"
+            // }]
+        })
+        res.status(200).json(userFriends)
+    } catch(err) {
+        res.status(500).json(err)
+        console.log(err)
+    }
+})
+
 //add a user
 router.post('/', (req, res)=>{
     res.send('Add a new user')
