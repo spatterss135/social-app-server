@@ -11,6 +11,15 @@ router.post('/', async (req, res)=> {
 
 router.delete('/', async (req, res)=> {
     console.log(req.body)
+    await friends.destroy(
+        {
+            where: {
+                user_id: req.body.user_id,
+                friend_id: req.body.friend_id
+            }
+        }
+    )
+    res.end()
 })
 
 module.exports = router;
