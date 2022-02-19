@@ -37,7 +37,7 @@ router.put('/:post_id', async (req, res)=>{
 })
 
 //delete a post
-router.delete('/post_id', async (req, res)=>{
+router.delete('/:post_id', async (req, res)=>{
     try{
         posts.destroy({
             where:{
