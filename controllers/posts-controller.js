@@ -2,7 +2,6 @@ const router = require('express').Router()
 const db = require('../models')
 const { posts } = db;
 const { Op } = require("sequelize");
-const res = require('express/lib/response');
 
 //get all posts
 router.get('/', async (req, res)=> {
