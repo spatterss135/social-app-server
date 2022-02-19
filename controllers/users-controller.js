@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const db = require('../models')
-const { Op } = require('sequelize')
+const { Op } = require('sequelize');
 const { users, posts, friends } = db;
 
 //get all users
@@ -17,21 +17,46 @@ router.get('/', async (req, res)=> {
 
 //add a user
 router.post('/', async (req, res)=>{
-    await users.create(req.body)
-    res.send('Add a new user')
+    try{
+        users.create(req.body)
+        res.status(200).json('User created.')
+    }
+    catch(err){
+        res.status(500).json("User creation failed.", err)
+    }
 })
 
 //edit a user
-router.put('/', (req, res)=>{
-    res.send('Edit a user')
+router.put('/:id', async (req, res)=>{
+    try{
+        await users.update(req.body, {
+            where: {
+                user_id: req.params.id
+            }
+        })
+        res.status(200).json(`Successfully edited user's data.`)
+    }
+    catch(err){
+        res.status(500).json(err)
+    }
 })
 
 //delete a user
-router.delete('/', (req, res)=>{
-    res.send('Delete a user')
+router.delete('/:id', async (req, res)=>{
+    try{
+        users.destroy({
+            where: {
+                user_id: req.params.id
+            }
+        })
+        res.status(200).json("User deleted.")
+    }
+    catch(err){
+        res.status(500).json(err)
+    }
 })
 
-//get a specific user
+//get a specific user's profile
 router.get('/:name', async (req, res)=>{
     try{
         const foundUsers = await users.findOne({
@@ -63,23 +88,4 @@ router.get('/:name', async (req, res)=>{
     }
 })
 
-//get a user's posts
-
-
-//sams work
-// router.get('/', async (req, res)=> {
-//     let usersInDatabase = await users.findAll()
-//     res.send(usersInDatabase)
-// })
-
-// router.get('/:id', async (req, res)=> {
-//     let userAndFriends = await users.findOne({
-//         where: {user_id: req.params.id},
-//         include: {model: friends, as: "friends"}}
-//         )
-//         res.send(userAndFriends)
-//     })
-
-
 module.exports = router;
-
