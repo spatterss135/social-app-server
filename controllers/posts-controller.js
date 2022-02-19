@@ -21,6 +21,36 @@ router.post('/', async (req, res)=>{
     }
 })
 
+//edit a post
+router.put('/:post_id', async (req, res)=>{
+    try{
+        posts.update(req.body, {
+            where:{
+                post_id: req.params.post_id
+            }
+        })
+        res.status(200).json('Post edited')
+    }
+    catch(err){
+        res.status(500).json(err)
+    }
+})
+
+//delete a post
+router.delete('/post_id', async (req, res)=>{
+    try{
+        posts.destroy({
+            where:{
+                post_id: req.params.post_id
+            }
+        })
+        res.status(200).json('Post deleted.')
+    }
+    catch(err){
+        res.status(500).json(err)
+    }
+})
+
 //get posts made by friends
 router.get('/:friends', async (req, res)=> {
     let friends = req.params.friends.split(',').map(num => Number(num))
