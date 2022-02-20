@@ -6,7 +6,13 @@ const { users, posts, friends } = db;
 //get all users
 router.get('/', async (req, res)=> {
     try{
-        const foundUsers = await users.findAll()
+        const foundUsers = await users.findAll({
+            where:{
+                name: {
+                    [Op.like]: `%${req.query.name ? req.query.name : ''}%`
+                }
+            }
+        })
         res.status(200).json(foundUsers)
     }
     catch(err){
