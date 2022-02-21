@@ -11,7 +11,23 @@ router.get('/', async (req, res)=> {
                 name: {
                     [Op.like]: `%${req.query.name ? req.query.name : ''}%`
                 }
-            }
+            },
+            include: [
+                {
+                    model: posts,
+                    as: "posts",
+                    attributes:{
+                        exclude: "user_id"
+                    }
+                },
+                {
+                    model: friends,
+                    as: "friends",
+                    attributes:{
+                        exclude: ['user_id', 'friendship_id']
+                    }
+                }
+            ]
         })
         res.status(200).json(foundUsers)
     }
