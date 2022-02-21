@@ -1,11 +1,20 @@
 const router = require('express').Router()
 const db = require('../models')
-const { posts } = db;
+const { posts, likes } = db;
 const { Op } = require("sequelize");
 
 //get all posts
 router.get('/', async (req, res)=> {
-    let postsInDatabase = await posts.findAll()
+    let postsInDatabase = await posts.findAll({
+        include:
+            [{
+                model: likes,
+                as: 'likes',
+                attributes:{
+                    exclude: ["like_id", "post_id"]
+                }
+            }]
+    })
     res.send(postsInDatabase)
 })
 
