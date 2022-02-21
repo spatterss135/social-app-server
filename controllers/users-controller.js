@@ -78,6 +78,19 @@ router.delete('/:id', async (req, res)=>{
     }
 })
 
+// Get all users friend's profiles
+router.get('/friends/:friends', async (req, res)=> {
+    let friends = req.params.friends.split(',').map(num => Number(num))
+    let postsInDatabaseMadeByFriends = await users.findAll({
+        where: {
+            user_id: {
+                [Op.or]: [...friends]
+            }
+        }
+    })
+    res.send(postsInDatabaseMadeByFriends)
+})
+
 //get a specific user's profile
 router.get('/:name', async (req, res)=>{
     try{
@@ -109,5 +122,8 @@ router.get('/:name', async (req, res)=>{
         console.log(err)
     }
 })
+
+
+
 
 module.exports = router;
