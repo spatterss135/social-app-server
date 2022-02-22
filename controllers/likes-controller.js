@@ -37,11 +37,11 @@ router.get('/:user_id', async (req, res)=>{
 })
 
 //Unlike a post
-router.delete('/:post_id', async (req, res)=>{
+router.delete('/', async (req, res)=>{
     try{
         likes.destroy({
             where:{
-                post_id: req.params.post_id,
+                post_id: req.body.post_id,
                 user_id: req.body.user_id 
             },
         })
