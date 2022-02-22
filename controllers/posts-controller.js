@@ -6,14 +6,14 @@ const { Op } = require("sequelize");
 //get all posts
 router.get('/', async (req, res)=> {
     let postsInDatabase = await posts.findAll({
-        include:
-            [{
-                model: likes,
-                as: 'likes',
-                attributes:{
-                    exclude: ["like_id", "post_id"]
-                }
-            }]
+        // include:
+        //     [{
+        //         model: likes,
+        //         as: 'post',
+        //         attributes:{
+        //             exclude: ["like_id", "post_id"]
+        //         }
+        //     }]
     })
     res.send(postsInDatabase)
 })
