@@ -5,17 +5,23 @@ const { Op } = require("sequelize");
 
 //get all posts
 router.get('/', async (req, res)=> {
-    let postsInDatabase = await posts.findAll({
-        // include:
-        //     [{
-        //         model: likes,
-        //         as: 'post',
-        //         attributes:{
-        //             exclude: ["like_id", "post_id"]
-        //         }
-        //     }]
-    })
-    res.send(postsInDatabase)
+    try{
+        let postsInDatabase = await posts.findAll({
+            // include:
+            //     [{
+            //         model: likes,
+            //         as: 'likes',
+            //         attributes:{
+            //             exclude: ["like_id", "post_id"]
+            //         }
+            //     }]
+        })
+        res.status(200).json(postsInDatabase)
+    }
+    catch(err){
+        res.status(500).json(err)
+    }
+    
 })
 
 //create a post

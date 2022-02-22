@@ -37,15 +37,14 @@ router.get('/:user_id', async (req, res)=>{
 })
 
 //Unlike a post
-router.delete('/', async (req, res)=>{
+router.delete('/:post_id', async (req, res)=>{
     try{
-        likes.destroy({
+        await likes.destroy({
             where:{
-                post_id: req.body.post_id,
-                user_id: req.body.user_id 
-            },
+                post_id: req.params.post_id
+            }
         })
-        res.status(200).json('Post unliked')
+        res.status(200).json('Post deleted.')
     }
     catch(err){
         res.status(500).json(err)
