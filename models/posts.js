@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
 
       posts.hasMany(likes, {
         foreignKey: 'post_id',
-        as: 'posts'
+        as: 'likes'
       })
     }
   }
