@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const db = require('../models')
 const { Op } = require('sequelize');
-const { likes, posts } = db
+const { likes, posts, users } = db
 
 //Like a post
 router.post('/', async (req, res)=>{
@@ -21,15 +21,55 @@ router.get('/:user_id', async (req, res)=>{
             where: {
                 user_id: req.params.user_id
             },
-            include: {
-                model: posts,
-                as: 'post',
-                attributes:{
-                    exclude: ["post_id", "user_id"]
+            include: [
+                {
+                    model: users,
+                    as: 'user',
+                    attributes: {
+                        exclude: ["user_id", "profile_pic"]
+                    }
+                },
+                {
+                    model: posts,
+                    as: 'post',
+                    attributes:{
+                        exclude: ["post_id", "user_id"]
+                    }
                 }
-            }
+            ]
         })
         res.status(200).json(foundLikedPosts)
+    }
+    catch(err){
+        res.status(500).json(err)
+    }
+})
+
+//Get likes on a given post
+router.get('/post/:post_id', async (req, res)=>{
+    try{
+        const foundLikes = await likes.findAll({
+            where: {
+                post_id: req.params.post_id
+            },
+            include: [
+                {
+                    model: users,
+                    as: 'user',
+                    attributes: {
+                        exclude: ["user_id", "profile_pic"]
+                    }
+                },
+                {
+                    model: posts,
+                    as: 'post',
+                    attributes:{
+                        exclude: ["post_id", "user_id"]
+                    }
+                }
+            ]
+        })
+        res.status(200).json(foundLikes)
     }
     catch(err){
         res.status(500).json(err)
