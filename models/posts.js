@@ -38,7 +38,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     image: {
       type: DataTypes.STRING
-    }
+    },
+    created_at: {
+      type: DataTypes.DATE
+    } 
+
   }, {
     sequelize,
     modelName: 'posts',
