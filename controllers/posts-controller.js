@@ -5,7 +5,8 @@ const { Op } = require("sequelize");
 const multer  = require('multer')
 const aws  = require('aws-sdk')
 const fs = require('fs');
-aws.config.update({accessKeyId: 'AKIAV5IHELLJVX3GZVJO', secretAccessKey: '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'})
+aws.config.update({accessKeyId: process.env.AWS_ACCESS_KEY, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+})
 const s3 = new aws.S3()
 
 
@@ -30,44 +31,48 @@ router.get('/', async (req, res)=> {
     
 })
 
-//create a post
-router.post('/', async (req, res, next)=>{
+// //create a post
+// router.post('/', async (req, res, next)=>{
     
-    const storage = multer.diskStorage({
-        destination: function (req, file, cb) {
-          cb(null, './uploads')
-        },
-        filename: function (req, file, cb) {
-            cb(null, file.originalname)
+//     const storage = multer.diskStorage({
+//         destination: function (req, file, cb) {
+//           cb(null, './uploads')
+//         },
+//         filename: function (req, file, cb) {
+//             cb(null, file.originalname)
 
-        }
-      })
+//         }
+//       })
       
-      const upload = multer({ storage: storage })
-    //   upload(req, res, error => {if (error) throw error}
-    //   )
-    //   next()
-    return upload.single('photo')(req, res, next)
-}, 
+//       const upload = multer({ storage: storage })
+//     //   upload(req, res, error => {if (error) throw error}
+//     //   )
+//     //   next()
+//     return upload.single('photo')(req, res, next)
+// }, 
 
-async (req, res)=>{
+// async (req, res)=>{
     
-    let photoKey = `https://socialappphotosbucket.s3.us-east-2.amazonaws.com/${req.file.originalname}_${Date.now().toString()}`
-    try{
-        // 
-        fs.readFile(`./uploads/${req.file.originalname}`,
-        (err, data) => {
-            if (err) throw err
-            s3.upload({Bucket: 'socialappphotosbucket', Key: photoKey, 
-        Body: data}, (err) => {if (err) throw err})
-        })
+//     let photoKey = `https://socialappphotosbucket.s3.us-east-2.amazonaws.com/${req.file.originalname}_${Date.now().toString()}`
+//     try{
+//         // 
+//         fs.readFile(`./uploads/${req.file.originalname}`,
+//         (err, data) => {
+//             if (err) throw err
+//             s3.upload({Bucket: 'socialappphotosbucket', Key: photoKey, 
+//         Body: data}, (err) => {if (err) throw err})
+//         })
 
-        await posts.create({user_id: req.body.user_id, content: req.body.content, image: photoKey})
-    }
-    catch(err){
-        res.status(500).json(err)
-    }
-    res.end()
+//         await posts.create({user_id: req.body.user_id, content: req.body.content, image: photoKey})
+//     }
+//     catch(err){
+//         res.status(500).json(err)
+//     }
+//     res.end()
+// })
+
+router.post('/', async (req, res) => {
+    console.log(req.body)
 })
 
 //edit a post
