@@ -72,7 +72,7 @@ router.get('/', async (req, res)=> {
 // })
 
 router.post('/', async (req, res) => {
-    await post.create(req.body)
+    await posts.create(req.body)
     res.end()
 })
 
