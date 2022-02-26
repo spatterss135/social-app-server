@@ -73,7 +73,7 @@ router.get('/', async (req, res)=> {
 
 router.post('/', async (req, res) => {
     await posts.create(req.body)
-    res.end()
+    res.status(200).json('Friendship created')
 })
 
 //edit a post
