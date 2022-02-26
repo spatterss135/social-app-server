@@ -72,8 +72,7 @@ router.get('/', async (req, res)=> {
 // })
 
 router.post('/', async (req, res) => {
-    await posts.create(req.body)
-    res.end()
+    res.send(req.body)
 })
 
 //edit a post
