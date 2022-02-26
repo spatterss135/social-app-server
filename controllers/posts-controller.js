@@ -2,6 +2,12 @@ const router = require('express').Router()
 const db = require('../models')
 const { posts, likes } = db;
 const { Op } = require("sequelize");
+const multer  = require('multer')
+const aws  = require('aws-sdk')
+const fs = require('fs');
+aws.config.update({accessKeyId: 'AKIAV5IHELLJVX3GZVJO', secretAccessKey: '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'})
+const s3 = new aws.S3()
+
 
 //get all posts
 router.get('/', async (req, res)=> {
@@ -25,14 +31,43 @@ router.get('/', async (req, res)=> {
 })
 
 //create a post
-router.post('/', async (req, res)=>{
+router.post('/', async (req, res, next)=>{
+    
+    const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+          cb(null, './uploads')
+        },
+        filename: function (req, file, cb) {
+            cb(null, file.originalname)
+
+        }
+      })
+      
+      const upload = multer({ storage: storage })
+    //   upload(req, res, error => {if (error) throw error}
+    //   )
+    //   next()
+    return upload.single('photo')(req, res, next)
+}, 
+
+async (req, res)=>{
+    
+    let photoKey = `https://socialappphotosbucket.s3.us-east-2.amazonaws.com/${req.file.originalname}_${Date.now().toString()}`
     try{
-        await posts.create(req.body)
-        res.status(200).json('Post created.')
+        // 
+        fs.readFile(`./uploads/${req.file.originalname}`,
+        (err, data) => {
+            if (err) throw err
+            s3.upload({Bucket: 'socialappphotosbucket', Key: photoKey, 
+        Body: data}, (err) => {if (err) throw err})
+        })
+
+        await posts.create({user_id: req.body.user_id, content: req.body.content, image: photoKey})
     }
     catch(err){
         res.status(500).json(err)
     }
+    res.end()
 })
 
 //edit a post
