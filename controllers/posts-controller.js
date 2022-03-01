@@ -2,12 +2,12 @@ const router = require('express').Router()
 const db = require('../models')
 const { posts, likes } = db;
 const { Op } = require("sequelize");
-const multer  = require('multer')
-const aws  = require('aws-sdk')
-const fs = require('fs');
-aws.config.update({accessKeyId: process.env.AWS_ACCESS_KEY, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
-})
-const s3 = new aws.S3()
+// const multer  = require('multer')
+// const aws  = require('aws-sdk')
+// const fs = require('fs');
+// aws.config.update({accessKeyId: process.env.AWS_ACCESS_KEY, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+// })
+// const s3 = new aws.S3()
 
 
 //get all posts
