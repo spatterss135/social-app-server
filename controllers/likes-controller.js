@@ -3,6 +3,20 @@ const db = require('../models')
 const { Op } = require('sequelize');
 const { likes, posts, users } = db
 
+
+
+
+//get all likes
+router.get('/', async (req, res)=>{
+    try{
+        let allLikes = await likes.findAll()
+        res.status(200).json(allLikes)
+    }
+    catch(err){
+        res.status(500).json(err)
+    }
+})
+
 //Like a post
 router.post('/', async (req, res)=>{
     try{
